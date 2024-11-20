@@ -14,7 +14,7 @@ async function movement() {
       Accept: 'application/json',
       Authorization: 'Bearer ' + token
     },
-    body: '{"x":0,"y":1}' //change the position here
+    body: '{"x":2,"y":0}' //change the position here
   };
   
   try {
