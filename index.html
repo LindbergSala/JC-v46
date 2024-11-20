@@ -10,27 +10,25 @@
 <body>
     <div class="game-frame">
 
-        <section class="Movement">
+        <section class="c-Info">
+            <div id="name"></div>
+            <div id="position">Position: (0, 0)</div>
+            <div id="cooldown">Nedräkning: 11 sekunder</div>
+        </section>
+
+        <section class="m-Buttons">
             <button id="up">Upp</button>
             <button id="left">Vänster</button>
             <button id="right">Höger</button>
             <button id="down">Ner</button>
         </section>
         
-    </div>
-        
-        
-        
-        <!-- Ny knapp för att samla resurser -->
-        <button id="gather">Samla Resurser</button>
-        <!-- Automatisk insamlingsalternativ -->
-        <label>
+        <section class="a-Buttons">
             <input type="checkbox" id="automate"> Automatisk insamling
-        </label>
+            <button id="gather">Samla Resurser</button>
+            <button id="fight">Slåss</button>
+
+        </section>
     </div>
-    <!-- Visar karaktärens aktuella position -->
-    <div id="position">Position: (0, 0)</div>
-    <!-- Visar cooldown-timer -->
-    <div id="cooldown">Nedräkning: 11 sekunder</div>
 </body>
 </html>

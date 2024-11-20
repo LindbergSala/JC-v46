@@ -10,15 +10,14 @@ const upButton = document.querySelector('#up');
 const leftButton = document.querySelector('#left');
 const rightButton = document.querySelector('#right');
 const downButton = document.querySelector('#down');
+const gatherButton = document.querySelector("#gather")
+const fightButton = document.querySelector("#fight")
 
 const automateEl = document.getElementById("automate");
 
 // Karaktärens position
 let posX = 0;
 let posY = 0;
-
-
-
 
 // Cooldown-timer
 let cooldownTime = 11; // Starttid för nedräkning i sekunder
@@ -56,7 +55,21 @@ function startCooldown() {
     }, 1000);
 }
 
-// Hantera rörelse
+// Funktion för att starta cooldown-timer
+function cooldown() {
+    const cooldownEl = document.getElementById("cooldown");
+    const interval = setInterval(() => {
+        if (cooldownTimer > 0) {
+            cooldownEl.innerText = `Nedräkning: ${cooldownTimer} sekunder`;
+            cooldownTimer--;
+        } else {
+            clearInterval(interval);
+            cooldownEl.innerText = "Nedräkning: Klar";
+        }
+    }, 1000);
+}
+
+// Funktion för rörelse
 async function moveCharacter(newX, newY) {
     if (cooldownActive) {
         alert('Du måste vänta tills cooldown är klar!'); // Hindra rörelse under cooldown
@@ -88,20 +101,6 @@ async function moveCharacter(newX, newY) {
     } catch (error) {
         console.error('Nätverksfel:', error);
     }
-}
-
-// Funktion för att starta cooldown-timer
-function cooldown() {
-    const cooldownEl = document.getElementById("cooldown");
-    const interval = setInterval(() => {
-        if (cooldownTimer > 0) {
-            cooldownEl.innerText = `Nedräkning: ${cooldownTimer} sekunder`;
-            cooldownTimer--;
-        } else {
-            clearInterval(interval);
-            cooldownEl.innerText = "Nedräkning: Klar";
-        }
-    }, 1000);
 }
 
 // Funktion för att samla resurser
@@ -140,9 +139,55 @@ async function gather() {
     }
 }
 
-// Koppla knapp till insamlingsfunktionen
-document.getElementById("gather").addEventListener("click", gather);
+// Funktion för slåss
+async function fight() {
+    const url = server + '/my/' + character +'/action/fight'
+    let data = null
+      
+    const options = {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: 'Bearer ' + token
+        },
+    }
+        
+    try {
+        const response = await fetch(url, options)
+        data = await response.json()
+      
+        console.log(data)
+        cooldownTimer = data.data.cooldown.remaining_seconds
+      
+        if(cooldownTimer > 0) {
+             cooldown()
+        }
+      
+    } catch (error) {
+          console.log(error)
+    }
 
+
+
+    if(automateEl.checked && data.data.fight.result === 'win') {
+
+        if(data.data.character.hp < 70) {
+            setTimeout(() => rest(fight), (cooldownTimer + 3) * 1000)
+        }
+        else {
+            console.log("automatic fighting")
+            console.log("cooldown: " + ((cooldownTimer + 3) * 1000))
+            setTimeout(fight, (cooldownTimer + 3) * 1000 )
+        }
+
+        
+    }
+    else if(data.data.fight.result === 'loss') {
+        console.log("loss")
+        automateEl.checked = false
+    }
+}
 
 
 // Event listeners för knappar
@@ -150,8 +195,9 @@ upButton.addEventListener('click', () => moveCharacter(posX, posY - 1)); // Flyt
 leftButton.addEventListener('click', () => moveCharacter(posX - 1, posY)); // Flytta vänster
 rightButton.addEventListener('click', () => moveCharacter(posX + 1, posY)); // Flytta höger
 downButton.addEventListener('click', () => moveCharacter(posX, posY + 1)); // Flytta ner
+gatherButton.addEventListener('click', () => gather())
+fightButton.addEventListener('click', () => fight())
 
 
-// Initial uppdatering av position och cooldown-display
 updatePositionDisplay();
 updateCooldownDisplay();
