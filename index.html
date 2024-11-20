@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="script.js"></script>
+    <title>Artifacts MMO Controller</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="Game-Frame">
-        <section class="Game-Movement">
-            <button class="up">Up</button>
-            <button class="right">Right</button>
-            <button class="down">Down</button>
-            <button class="left">Left</button>
-        </section>
+    <div class="game-frame">
+        <!-- Styrknappar -->
+        <button id="up">Upp</button>
+        <button id="left">Vänster</button>
+        <button id="right">Höger</button>
+        <button id="down">Ner</button>
     </div>
+    <!-- Visar karaktärens aktuella position -->
+    <div id="position">Position: (0, 0)</div>
+    <!-- Visar cooldown-timer -->
+    <div id="cooldown">Nedräkning: 11 sekunder</div>
 </body>
 </html>
