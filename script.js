@@ -4,9 +4,21 @@ const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImIucGF0cmlrLmxp
 //Din karaktärs namn
 const character = "TheL0rd";
 
+
+// Karaktärens örelser
+const upButton = document.querySelector('#up');
+const leftButton = document.querySelector('#left');
+const rightButton = document.querySelector('#right');
+const downButton = document.querySelector('#down');
+
+const automateEl = document.getElementById("automate");
+
 // Karaktärens position
 let posX = 0;
 let posY = 0;
+
+
+
 
 // Cooldown-timer
 let cooldownTime = 11; // Starttid för nedräkning i sekunder
@@ -78,11 +90,67 @@ async function moveCharacter(newX, newY) {
     }
 }
 
+// Funktion för att starta cooldown-timer
+function cooldown() {
+    const cooldownEl = document.getElementById("cooldown");
+    const interval = setInterval(() => {
+        if (cooldownTimer > 0) {
+            cooldownEl.innerText = `Nedräkning: ${cooldownTimer} sekunder`;
+            cooldownTimer--;
+        } else {
+            clearInterval(interval);
+            cooldownEl.innerText = "Nedräkning: Klar";
+        }
+    }, 1000);
+}
+
+// Funktion för att samla resurser
+async function gather() {
+    const url = server + "/my/" + character + "/action/gathering";
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+        },
+    };
+
+    try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+
+        console.log(data);
+
+        // Hämta cooldown-tid från API-svaret
+        cooldownTimer = data.data.cooldown.remaining_seconds;
+
+        // Starta cooldown om tid kvarstår
+        if (cooldownTimer > 0) {
+            cooldown();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    // Automatisk insamling
+    if (automateEl.checked) {
+        console.log("Automatisk insamling");
+        setTimeout(gather, 30000); // Kör om efter 30 sekunder
+    }
+}
+
+// Koppla knapp till insamlingsfunktionen
+document.getElementById("gather").addEventListener("click", gather);
+
+
+
 // Event listeners för knappar
-document.getElementById('up').addEventListener('click', () => moveCharacter(posX, posY - 1)); // Flytta upp
-document.getElementById('left').addEventListener('click', () => moveCharacter(posX - 1, posY)); // Flytta vänster
-document.getElementById('right').addEventListener('click', () => moveCharacter(posX + 1, posY)); // Flytta höger
-document.getElementById('down').addEventListener('click', () => moveCharacter(posX, posY + 1)); // Flytta ner
+upButton.addEventListener('click', () => moveCharacter(posX, posY - 1)); // Flytta upp
+leftButton.addEventListener('click', () => moveCharacter(posX - 1, posY)); // Flytta vänster
+rightButton.addEventListener('click', () => moveCharacter(posX + 1, posY)); // Flytta höger
+downButton.addEventListener('click', () => moveCharacter(posX, posY + 1)); // Flytta ner
+
 
 // Initial uppdatering av position och cooldown-display
 updatePositionDisplay();
