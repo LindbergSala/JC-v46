@@ -265,7 +265,7 @@ async function rest(action) {
 // Funktion för att flytta karaktären till en förutbestämd plats
 async function moveToLocation(location) {
     if (cooldownActive) {
-        alert('Du måste vänta tills cooldown är klar!'); // Hindra rörelse under cooldown
+        alert('Du måste vänta tills cooldown är klar!');
         return;
     }
 
@@ -277,7 +277,7 @@ async function moveToLocation(location) {
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ x: location.x, y: location.y }) // Skicka nya koordinater
+        body: JSON.stringify({ x: location.x, y: location.y })
     };
 
     try {
@@ -287,8 +287,8 @@ async function moveToLocation(location) {
         if (response.ok && data) {
             posX = location.x;
             posY = location.y;
-            updatePositionDisplay(); // Uppdatera positionen i UI
-            startCooldown(); // Starta cooldown-timern
+            updatePositionDisplay();
+            startCooldown();
         } else {
             console.error('Fel vid förflyttning:', data);
         }
