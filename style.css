@@ -1,0 +1,14 @@
+body {
+    height: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center; /* Om du vill centrera texten inuti */
+    padding: 20px; /* Valfritt: lite inre marginal */
+    border: 1px solid #ccc; /* Valfritt: synlig gräns för att se behållaren */
+    background-color: #f9f9f9; /* Valfritt: bakgrundsfärg */
+}
