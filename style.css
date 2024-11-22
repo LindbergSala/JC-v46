@@ -30,7 +30,7 @@ section {
 }
 
 button {
-    background-color: #444; /* Bakgrund som en knapp på kontrollen */
+    background-color: #444;
     color: #fff;
     border: 2px solid #000;
     border-radius: 8px;
@@ -43,17 +43,17 @@ button {
 }
 
 button:hover {
-    background-color: #666; /* Ljuseffekt vid hover */
+    background-color: #666;
     transform: scale(1.1);
 }
 
 button:active {
-    background-color: #333; /* Tryckeffekt */
+    background-color: #333;
     transform: scale(0.95);
 }
 
 #up {
-    margin-bottom: -15px; /* Placering som en D-pad */
+    margin-bottom: -15px;
 }
 
 #left, #right {
@@ -110,14 +110,13 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked + label {
-    color: #ff0000; /* Röd text för aktiverad automatisk insamling */
-}
+    color: #ff0000;
 
 label {
     margin-right: 10px;
 }
 
 .a-Buttons button {
-    background-color: #ff0000; /* Röda knappar som A och B */
+    background-color: #ff0000;
     border: 2px solid #8b0000;
 }

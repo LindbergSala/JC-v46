@@ -4,7 +4,7 @@ const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImIucGF0cmlrLmxp
 // Din karaktärs namn
 const character = "TheL0rd";
 
-// Elementreferenser
+// Const och Lets
 const upButton = document.querySelector("#up");
 const leftButton = document.querySelector("#left");
 const rightButton = document.querySelector("#right");
@@ -16,7 +16,7 @@ const gotoLocation1Button = document.querySelector("#goto-location1");
 const gotoLocation2Button = document.querySelector("#goto-location2");
 const automateEl = document.getElementById("automate");
 
-// Fördefinierade platser
+// Snabb Resa
 const location1 = { x: 0, y: 1 }; // Kycklingarna
 const location2 = { x: 2, y: 2 }; // Solrosorna
 
@@ -85,7 +85,7 @@ function updateCooldownDisplay() {
         : "Nedräkning: Klar";
 }
 
-// API-anrop
+// API-anrop - Helper
 async function performAction(endpoint, body = {}, onSuccess = null) {
     if (cooldownActive) {
         alert("Du måste vänta tills cooldown är klar!");
